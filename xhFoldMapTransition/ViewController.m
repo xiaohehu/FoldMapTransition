@@ -30,7 +30,8 @@
 @synthesize flipStyle = _flipStyle;
 @synthesize uiv_mapContainer;
 @synthesize uiiv_mpas;
-
+@synthesize mapIndex;
+@synthesize directionSegment;
 - (BOOL)prefersStatusBarHidden {
     return YES;
 }
@@ -40,7 +41,7 @@
 	// Do any additional setup after loading the view, typically from a nib.
     [self initVC];
     [self.modeSegment setSelectedSegmentIndex:(int)[self mode]];
-	[self.uiv_mapContainer insertSubview:[self getLabelForIndex:0] atIndex:0];
+	[self.uiv_mapContainer insertSubview:[self getLabelForIndex:mapIndex] atIndex:0];
 }
 
 -(void)initVC
@@ -55,7 +56,10 @@
 
 }
 #pragma mark - Properties
-
+-(void)setMapIndex:(int)index
+{
+    mapIndex = index;
+}
 - (NSUInteger)style
 {
 	switch ([self mode]) {
@@ -89,6 +93,17 @@
     
     [self setMode:[sender selectedSegmentIndex]];
 	[self updateClipsToBounds];
+    switch ([sender selectedSegmentIndex]) {
+        case 0:
+            directionSegment.hidden = NO;
+            break;
+        case 1:
+            directionSegment.hidden = YES;
+            break;
+            
+        default:
+            break;
+    }
 }
 
 - (IBAction)setepperValueChanged:(id)sender {
@@ -133,7 +148,7 @@
 }
 
 - (IBAction)directionChanged:(id)sender {
-    switch (_directionSegment.selectedSegmentIndex) {
+    switch (directionSegment.selectedSegmentIndex) {
         case 0:
         {
 //            _foldStyle = MPFoldStyleDefault;
@@ -194,7 +209,7 @@
 //    uiiv_mpas.alpha = 0.5;
 	[container addSubview:uiiv_tmpImgView];
 	container.tag = index;
-    [container setBackgroundColor:[UIColor redColor]];
+    [container setBackgroundColor:[UIColor blackColor]];
 //	[container.layer setBorderColor:[[UIColor colorWithWhite:0.85 alpha:1] CGColor]];
 //	[container.layer setBorderWidth:2];
 	
